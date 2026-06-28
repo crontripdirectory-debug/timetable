@@ -3,68 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>箱根湯本駅 時刻表（平日/土休日切り替え）</title>
-    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <title>箱根湯本駅 時刻表（パステルスタイル）</title>
+    <!-- 🔴 フォントをドット風から、丸みのある可愛い「M PLUS Rounded 1c」に変更 -->
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
-        /* (前と同じスタイルは省略していますが、そのまま使えます) */
         :root {
-            --bg-color: #F9F8F7;
-            --board-bg: #161a1d;
-            --led-orange: #ff9d00;
-            --led-green: #33ff33;
-            --led-red: #ff3333;
-            --text-gray: #888888;
+            /* 🎨 パステルカラーのカラーパレット設定 */
+            --bg-color: #f7f9fa;          /* 背景：ほんのりニュアンスのある白 */
+            --text-color: #5a6370;        /* 文字：優しいアッシュグレー */
+            --board-bg: #ffffff;          /* 掲示板背景：やわらかい白 */
+            --board-border: #e8ecf0;      /* 掲示板の枠：ミルク色 */
+            
+            --pastel-orange: #ffb380;     /* 時刻：コーラルパステル */
+            --pastel-red: #ff9aa2;        /* ロマンスカー：いちごミルク */
+            --pastel-green: #b5ead7;      /* 各駅停車：ミントパステル */
+            --pastel-blue: #a0c4ff;       /* 駅名など：ソーダパステル */
+            
+            --btn-bg: #eef2f5;            /* ボタン：淡いグレー */
+            --btn-active: #ffdfba;        /* 選択中ボタン：アプリコット */
         }
-        body { background-color: var(--bg-color); color: #ffffff; font-family: 'HG丸ｺﾞｼｯｸM-PRO', sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        #clock-container { font-family: 'Share Tech Mono', monospace; font-size: 1.8rem; color: var(--led-orange); text-shadow: 0 0 5px var(--led-orange); margin-bottom: 20px; background: #000; padding: 5px 15px; border-radius: 4px; border: 2px solid #333; }
-        .board { background-color: var(--board-bg); border: 6px solid #2d3238; border-radius: 20px; width: 100%; max-width: 600px; padding: 10px; box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 10px 25px rgba(0,0,0,0.5); margin-bottom: 25px; }
-        .board-title { font-size: 1.2rem; padding-bottom: 8px; border-bottom: 2px solid #3d454d; margin-bottom: 10px; color: #fff; display: flex; justify-content: space-between; }
-        .row { display: flex; align-items: center; padding: 8px 0; border-bottom: 1px dashed #2d3238; font-size: 1.2rem; height: 30px; }
-        .col-time { width: 20%; font-family: 'Share Tech Mono', monospace; color: var(--led-orange); text-shadow: 0 0 4px var(--led-orange); font-size: 1.4rem; }
-        .col-type { width: 30%; text-align: center; }
-        .type-romance { color: var(--led-red); text-shadow: 0 0 4px var(--led-red); }
-        .type-local { color: var(--led-green); text-shadow: 0 0 4px var(--led-green); }
-        .col-dest { width: 30%; text-align: center; color: #ffffff; }
-        .col-status { width: 20%; text-align: right; font-size: 0.9rem; }
-        .status-soon { color: var(--led-red); animation: blink 1s infinite; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
-        .no-train { color: var(--text-gray); text-align: center; width: 100%; padding: 15px 0; font-style: italic; }
+        
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-color);
+            font-family: 'M PLUS Rounded 1c', sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
 
-        /* 🆕 平日/休日切り替えボタンのスタイル */
+        /* 🔴 一番上の大きなタイトル */
+        h1 {
+            color: #ff9aa2 !important; /* パステルピンク */
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        /* 🔴 時計のデザインも優しく変更 */
+        #clock-container { 
+            font-family: 'Share Tech Mono', monospace; 
+            font-size: 1.4rem; 
+            color: #97a2b0; 
+            margin-bottom: 25px; 
+            background: #ffffff; 
+            padding: 6px 20px; 
+            border-radius: 20px; 
+            border: 2px solid var(--board-border);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+
+        /* 🔴 掲示板を丸みのあるパステルな白いボックスに */
+        .board { 
+            background-color: var(--board-bg); 
+            border: 3px solid var(--board-border); 
+            border-radius: 24px; /* 👈 角をかなり丸くしました */
+            width: 100%; 
+            max-width: 600px; 
+            padding: 20px; 
+            box-shadow: 0 8px 24px rgba(149, 157, 165, 0.1); 
+            margin-bottom: 25px; 
+        }
+
+        /* 掲示板の中のタイトル */
+        .board-title { 
+            font-size: 1.1rem; 
+            font-weight: 700;
+            padding-bottom: 12px; 
+            border-bottom: 2px solid #f0f4f8; 
+            margin-bottom: 10px; 
+            color: #7b889b; 
+            display: flex; 
+            justify-content: space-between; 
+        }
+
+        /* 時刻表の1行 */
+        .row { 
+            display: flex; 
+            align-items: center; 
+            padding: 12px 0; 
+            border-bottom: 1px dashed #edf1f5; 
+            font-size: 1.1rem; 
+        }
+
+        /* 各列の色とかたち */
+        .col-time { 
+            width: 20%; 
+            font-family: 'Share Tech Mono', monospace; 
+            color: #7b889b; 
+            font-size: 1.3rem; 
+            font-weight: bold;
+        }
+        
+        .col-type { 
+            width: 35%; 
+            text-align: center; 
+        }
+        
+        /* 🔴 種別をパステルの可愛いバッジ風に */
+        .col-type span {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        .type-romance span { 
+            background-color: var(--pastel-red); 
+            color: #ffffff; 
+        }
+        .type-local span { 
+            background-color: var(--pastel-green); 
+            color: #4f7a6b; 
+        }
+
+        .col-dest { 
+            width: 25%; 
+            text-align: center; 
+            color: var(--text-color); 
+            font-weight: bold;
+        }
+
+        .col-status { 
+            width: 20%; 
+            text-align: right; 
+            font-size: 0.85rem; 
+        }
+        .status-soon { 
+            color: #ffb380; 
+            font-weight: bold;
+            animation: blink 1.5s infinite; 
+        }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+        
+        .no-train { 
+            color: #a0aec0; 
+            text-align: center; 
+            width: 100%; 
+            padding: 20px 0; 
+            font-style: italic; 
+        }
+
+        /* 🔴 タブ切り替えボタンもぷっくりパステルに */
         .btn-container {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             display: flex;
-            gap: 10px;
+            gap: 12px;
         }
         .tab-btn {
-            background-color: #2d3238;
-            color: #ccc;
-            border: 2px solid #4f5761;
-            padding: 8px 20px;
-            font-family: 'DotGothic16', sans-serif;
-            font-size: 1rem;
-            cursor: pointer;
-            border-radius: 4px;
+            background-color: var(--btn-bg); 
+            color: #718096; 
+            border: none; 
+            padding: 10px 24px; 
+            font-family: 'M PLUS Rounded 1c', sans-serif; 
+            font-size: 0.95rem; 
+            font-weight: bold;
+            cursor: pointer; 
+            border-radius: 16px; 
+            transition: transform 0.1s ease, background-color 0.2s ease;
+        }
+        .tab-btn:active {
+            transform: scale(0.95);
         }
         .tab-btn.active {
-            background-color: var(--led-orange);
-            color: #000;
-            font-weight: bold;
-            border-color: #fff;
-            box-shadow: 0 0 10px var(--led-orange);
-        }
-     h1 {
-    color: #000000 !important; /* 👈 ここをお好きな色（カラーコード）に変えてください */
-    text-align: center; /* タイトルを真ん中に寄せたい場合はこれも追加 */　
+            background-color: var(--btn-active);
+            color: #c77d24;
+            box-shadow: 0 4px 12px rgba(255, 223, 186, 0.5);
         }
     </style>
 </head>
 <body>
 
-    <h1>箱根湯本駅 発車案内</h1>
+    <h1>箱根湯本駅 時刻表</h1>
     <div id="clock-container">TIME <span id="clock">00:00:00</span></div>
 
-    <!-- 🆕 切り替えボタン -->
     <div class="btn-container">
         <button id="btn-weekday" class="tab-btn active" onclick="changeMode('weekday')">平日ダイヤ</button>
         <button id="btn-weekend" class="tab-btn" onclick="changeMode('weekend')">土休日ダイヤ</button>
@@ -74,7 +187,7 @@
     <div class="board">
         <div class="board-title">
             <span>③強羅方面 (Tozan Line)</span>
-            <span id="board-status-gora" style="font-size:0.8rem; color:var(--led-orange);">平日表示中</span>
+            <span id="board-status-gora" style="font-size:0.8rem; color:#a0aec0;">平日表示中</span>
         </div>
         <div id="gora-rows"></div>
     </div>
@@ -83,16 +196,15 @@
     <div class="board">
         <div class="board-title">
             <span>①②小田原・新宿方面 (Odawara / Shinjuku)</span>
-            <span id="board-status-odawara" style="font-size:0.8rem; color:var(--led-orange);">平日表示中</span>
+            <span id="board-status-odawara" style="font-size:0.8rem; color:#a0aec0;">平日表示中</span>
         </div>
         <div id="odawara-rows"></div>
     </div>
 
     <script>
-        // 🆕 現在どちらのモードか（初期値は平日：weekday）
         let currentMode = 'weekday';
 
-        // 🆕 平日と休みのデータを1つに合体させました
+        // 時刻表データ（内容はそのまま維持しています）
         const timetables = {
             weekday: {
                 gora: [
@@ -150,8 +262,8 @@
                    { time: "21:30", type: 1, name: "各駅停車", dest: "強羅" },
                    { time: "21:51", type: 1, name: "各駅停車", dest: "強羅" },
                    { time: "22:43", type: 1, name: "各駅停車", dest: "強羅" }
-               ],
-            odawara: [
+                ],
+                odawara: [
                    { time: "05:45", type: 1, name: "各駅停車", dest: "小田原" },
                    { time: "06:23", type: 1, name: "各駅停車", dest: "小田原" },
                    { time: "06:37", type: 1, name: "各駅停車", dest: "小田原" },
@@ -360,20 +472,15 @@
             }
         };
 
-        // 🆕 ボタンが押された時にモードを切り替える関数
         function changeMode(mode) {
             currentMode = mode;
-            
-            // ボタンの見た目（色）を変える
             document.getElementById('btn-weekday').classList.toggle('active', mode === 'weekday');
             document.getElementById('btn-weekend').classList.toggle('active', mode === 'weekend');
             
-            // 掲示板の右上の文字を変える
             const statusText = mode === 'weekday' ? '平日表示中' : '土休日表示中';
             document.getElementById('board-status-gora').innerText = statusText;
             document.getElementById('board-status-odawara').innerText = statusText;
 
-            // 表示を即座に更新
             updateBoards();
         }
 
@@ -386,7 +493,6 @@
 
             const currentTimeStr = `${hrs}:${mins}`;
 
-            // 🆕 選択されているモードのデータを読み込むように修正
             renderDirection('gora', currentTimeStr, timetables[currentMode].gora);
             renderDirection('odawara', currentTimeStr, timetables[currentMode].odawara);
         }
@@ -411,16 +517,17 @@
 
                 const typeClass = train.type === 2 ? 'type-romance' : 'type-local';
 
-                let statusText = 'ー';
+                let statusText = '';
                 let statusClass = '';
                 if (train.time === currentTimeStr) {
                     statusText = 'まもなく';
                     statusClass = 'status-soon';
                 }
 
+                // 🔴 JavaScript側で、種別の文字を <span> で囲むように調整
                 row.innerHTML = `
                     <div class="col-time">${train.time}</div>
-                    <div class="col-type ${typeClass}">${train.name}</div>
+                    <div class="col-type ${typeClass}"><span>${train.name}</span></div>
                     <div class="col-dest">${train.dest}</div>
                     <div class="col-status ${statusClass}">${statusText}</div>
                 `;
