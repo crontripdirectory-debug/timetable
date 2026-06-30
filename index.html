@@ -32,6 +32,8 @@
             display: flex; 
             flex-direction: column; 
             align-items: center; 
+        }
+        .timetable{
             border-radius:30px;
         }
 
@@ -174,8 +176,8 @@
         }
     </style>
 </head>
-<body>
-
+<body class="timetable">
+<div>
     <h1>箱根湯本駅 時刻表</h1>
     <div id="clock-container">TIME <span id="clock">00:00:00</span></div>
 
@@ -539,5 +541,6 @@
         setInterval(updateBoards, 1000);
         updateBoards();
     </script>
+    </div>
 </body>
 </html>
